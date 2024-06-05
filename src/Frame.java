@@ -27,6 +27,7 @@ public class Frame extends JFrame{
         //button add
 
         this.add(button.a);
+        this.add(button.a2);
         this.add(button.b);
 
     }
