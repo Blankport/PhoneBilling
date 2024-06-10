@@ -9,14 +9,19 @@ public class Button implements ActionListener {
     JButton a = new JButton();
     JButton b = new JButton();
     JButton a2 = new JButton();
+    JButton set = new JButton();
+    JButton reset = new JButton();
+
+
     public int hours = 0, min = 0, sec = 0;
-    public double charges, saf = 0.05, airt = 0.03;
+    public double charges, saf , airt, time;
     public DecimalFormat dp = new DecimalFormat("#.00");
     public double bill=0;
     public volatile boolean timing;
     public Panel panel = new Panel();
     public Panel.Panel2 panel2 = panel.new Panel2();
-   // Button thread = new Button();
+    public TextArea textArea = new TextArea();
+
 
 
     Button(){
@@ -58,6 +63,39 @@ public class Button implements ActionListener {
         b.setEnabled(false);
         b.setFocusable(false);
         b.addActionListener(this);
+
+        //setButton
+        set.setVisible(true);
+        set.setBounds(155, 150, 90, 40);
+        set.setText("Set");
+        set.setFont(new Font("Scan", Font.ROMAN_BASELINE, 20));
+        set.setFocusable(false);
+        set.addActionListener(this);
+
+
+        //resetButton
+        reset.setVisible(false);
+        reset.setBounds(155, 200, 90, 40);
+        reset.setText("Reset");
+        reset.setFont(new Font("Scan", Font.ROMAN_BASELINE, 20));
+        reset.setFocusable(false);
+        reset.addActionListener(this);
+
+        //TextField
+        textArea.saf.setVisible(true);
+        textArea.airt.setVisible(true);
+        textArea.sec.setVisible(true);
+        textArea.head.setVisible(true);
+
+        saf = Double.parseDouble(textArea.saf.getText());
+        airt = Double.parseDouble(textArea.airt.getText());
+        time = Double.parseDouble(textArea.sec.getText());
+
+        b.setVisible(false);
+        a.setVisible(false);
+        a2.setVisible(false);
+        panel2.setVisible(false);
+        panel.setVisible(false);
     }
 
     @Override
@@ -77,7 +115,20 @@ public class Button implements ActionListener {
 
             b.setVisible(true);
             b.setEnabled(true);
-            charges = saf;
+
+            set.setVisible(false);
+            reset.setVisible(false);
+
+
+            textArea.safLabel.setVisible(false);
+            textArea.airtLabel.setVisible(false);
+            textArea.secLabel.setVisible(false);
+            textArea.airt.setVisible(false);
+            textArea.sec.setVisible(false);
+            textArea.saf.setVisible(false);
+            textArea.head.setVisible(false);
+
+            charges = Double.parseDouble(textArea.saf.getText());
 
             hours=min=sec=0;
 
@@ -141,7 +192,19 @@ public class Button implements ActionListener {
 
             b.setVisible(true);
             b.setEnabled(true);
-            charges = airt;
+
+            set.setVisible(false);
+            reset.setVisible(false);
+
+            textArea.safLabel.setVisible(false);
+            textArea.airtLabel.setVisible(false);
+            textArea.secLabel.setVisible(false);
+            textArea.airt.setVisible(false);
+            textArea.sec.setVisible(false);
+            textArea.saf.setVisible(false);
+            textArea.head.setVisible(false);
+
+            charges =  Double.parseDouble(textArea.airt.getText());
 
             hours=min=sec=0;
 
@@ -192,6 +255,8 @@ public class Button implements ActionListener {
 
         else if(e.getSource()==b){
             System.out.println("Call Ended");
+
+            time = Double.parseDouble(textArea.sec.getText());
             panel2.setVisible(true);
 
             a.setVisible(true);
@@ -203,6 +268,17 @@ public class Button implements ActionListener {
             b.setVisible(false);
             b.setEnabled(false);
 
+            set.setVisible(false);
+            reset.setVisible(true);
+
+            textArea.safLabel.setVisible(false);
+            textArea.airtLabel.setVisible(false);
+            textArea.secLabel.setVisible(false);
+            textArea.airt.setVisible(false);
+            textArea.sec.setVisible(false);
+            textArea.saf.setVisible(false);
+            textArea.head.setVisible(false);
+
             timing = false;
 
             Thread k = new Thread(){
@@ -211,7 +287,7 @@ public class Button implements ActionListener {
                     if(timing==false){
 
                                 int total = (hours*3600) + (min * 60) + sec;
-                                bill = ((total) * charges);
+                                bill = ((total/time) * charges);
                                 System.out.println("Total sec: "+ total);
                                 System.out.printf("Charges: Ksh"+dp.format(bill));
                                 panel2.label2.setText("Charges: Ksh"+dp.format(bill));
@@ -223,10 +299,53 @@ public class Button implements ActionListener {
             };
             k.start();
         }
+
+        else if (e.getSource() == set){
+            saf = Double.parseDouble(textArea.saf.getText());
+            airt = Double.parseDouble(textArea.airt.getText());
+            time = Double.parseDouble(textArea.sec.getText());
+
+            set.setVisible(false);
+            a.setVisible(true);
+            a2.setVisible(true);
+            reset.setVisible(true);
+            panel.setVisible(true);
+
+            textArea.saf.setVisible(false);
+            textArea.airt.setVisible(false);
+            textArea.safLabel.setVisible(false);
+            textArea.airtLabel.setVisible(false);
+            textArea.sec.setVisible(false);
+            textArea.secLabel.setVisible(false);
+            textArea.head.setVisible(false);
+
+        }
+
+        else if(e.getSource() == reset){
+            reset.setVisible(false);
+            set.setVisible(true);
+            b.setVisible(false);
+            a.setVisible(false);
+            a2.setVisible(false);
+            panel2.setVisible(false);
+            panel.setVisible(false);
+
+
+            textArea.safLabel.setVisible(true);
+            textArea.airtLabel.setVisible(true);
+            textArea.secLabel.setVisible(true);
+            textArea.head.setVisible(true);
+
+            textArea.saf.setText("1");
+            textArea.saf.setVisible(true);
+            textArea.airt.setText("1");
+            textArea.airt.setVisible(true);
+            textArea.sec.setVisible(true);
+            textArea.sec.setText("1");
+
+
+        }
     }
-
-
-
 
 
 }

@@ -18,14 +18,26 @@ public class Frame extends JFrame{
         this.setLayout(null);
 
         this.setVisible(true);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //panel add
         this.add(button.panel);
         this.add(button.panel2);
+
+        //TextArea
+        this.add(button.textArea.saf);
+        this.add(button.textArea.airt);
+        this.add(button.textArea.sec);
+
+        this.add(button.textArea.secLabel);
+        this.add(button.textArea.airtLabel);
+        this.add(button.textArea.safLabel);
+        this.add(button.textArea.head);
         //button add
 
+        this.add(button.set);
+        this.add(button.reset);
         this.add(button.a);
         this.add(button.a2);
         this.add(button.b);
